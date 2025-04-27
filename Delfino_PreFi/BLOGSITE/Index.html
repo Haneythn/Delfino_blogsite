@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NATHAN'S BLOG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        header {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+        header p {
+            color: #666;
+            margin: 0;
+        }
+        nav {
+            text-align: right;
+            margin-top: 10px;
+        }
+        nav a {
+            margin-left: 15px;
+            text-decoration: none;
+            color: #666;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .blog-list h2 {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+        .blog-list p {
+            margin: 5px 0 15px;
+            color: #666;
+        }
+        .blog-item {
+            border-left: 4px solid rgb(63, 0, 122);
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>NATHAN BLOG</h1>
+        <p>A NORMAL BLOG SITE</p>
+        <nav>
+            <a href="Index.html">BLOGS</a>
+            <a href="about.html">ABOUT</a>
+            <a href="new_blog.html">NEW BLOG</a>
+        </nav>
+    </header>
+    <main>
+        <h2>All Blogs</h2>
+        <div class="blog-list" id="blog-list">
+            <!-- Blogs will be dynamically loaded here -->
+        </div>
+    </main>
+    <script>
+        // Fetch blogs from the server and display them
+        async function loadBlogs() {
+            const response = await fetch('/blogs');
+            const blogs = await response.json();
+    
+            const blogList = document.getElementById('blog-list');
+            blogList.innerHTML = ''; // Clear existing content
+    
+            blogs.forEach(blog => {
+                const blogItem = document.createElement('div');
+                blogItem.className = 'blog-item';
+                blogItem.innerHTML = `
+                    <h2><a href="/blog/${blog._id}">${blog.title}</a></h2>
+                    <p>${blog.snippet}</p>
+                `;
+                blogList.appendChild(blogItem);
+            });
+        }
+    
+        // Load blogs on page load
+        window.onload = loadBlogs;
+    </script>
+</body>
+</html>
